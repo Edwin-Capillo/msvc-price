@@ -42,19 +42,6 @@ pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity
 - - **`controller`**: Contiene los controladores REST para manejar las solicitudes de la API.
   - - **`dto`**: Objetos de transferencia de datos para las cargas útiles de solicitud y respuesta.
 
-## Endpoints
-
-### Endpoints del API
-
-| Método HTTP | Endpoint          | Descripción                                   | Cuerpo de Solicitud                                                                                     | Cuerpo de Respuesta                                                                                                                                                   |
-|-------------|-------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **POST**    | `/api/price`      | Recuperar detalles de precios según parámetros de entrada. | `{ "inputDate": "2020-06-14-10:00:00", "productId": 35455, "brandId": 1 }`                              | `{ "productId": 35455, "brandId": 1, "priceList": 1, "startDate": "2020-06-14-00:00:00", "endDate": "2020-12-31-23:59:59", "priceAmount": 35.50, "currency": "EUR" }` |
-| **GET**     | `/api/price/{id}` | Recuperar detalles de precios por ID.         | Ninguno                                                                                                 | `{ "productId": 35455, "brandId": 1, "priceList": 1, "startDate": "2020-06-14-00:00:00", "endDate": "2020-12-31-23:59:59", "priceAmount": 35.50, "currency": "EUR" }`       |
-| **GET**     | `/api/prices`     | Recuperar todos los detalles de precios.      | Ninguno                                                                                                 | `[ { "productId": 35455, "brandId": 1, "priceList": 1, "startDate": "2020-06-14-00:00:00", "endDate": "2020-12-31-23:59:59", "priceAmount": 35.50, "currency": "EUR" } ]`   |
-| **POST**    | `/api/create`     | Crear un nuevo precio.                        | `{ "id": 1, "brandId": 1, "startDate": "2023-01-01-00:00:00", "endDate": "2023-12-31-23:59:59", "priceList": 1, "productId": 35455, "priority": 2, "priceAmount": 35.50, "currency": "EUR" }` | `{ "id": 1, "brandId": 1, "startDate": "2023-01-01-00:00:00", "endDate": "2023-12-31-23:59:59", "priceList": 1, "productId": 35455, "priority": 2, "priceAmount": 35.50, "currency": "EUR" }` |
-| **PUT**     | `/api/update/{id}`| Actualizar un precio existente.               | `{ "brandId": 1, "startDate": "2023-01-01-00:00:00", "endDate": "2023-12-31-23:59:59", "priceList": 1, "productId": 35455, "priority": 2, "priceAmount": 35.50, "currency": "EUR" }` | `{ "id": 1, "brandId": 1, "startDate": "2023-01-01-00:00:00", "endDate": "2023-12-31-23:59:59", "priceList": 1, "productId": 35455, "priority": 2, "priceAmount": 35.50, "currency": "EUR" }` |
-| **DELETE**  | `/api/delete/{id}`| Eliminar un precio por ID.                    | Ninguno                                                                                                 | Ninguno                                                                                                                                                                |
-
 ## Información Adicional
 1. Tenemos la documentación del API en el siguiente .yaml que se puede visualizar en swagger(https://editor.swagger.io/) Link: https://github.com/Edwin-Capillo/msvc-price/blob/master/OpenAPI-swagger.yaml
 2. Implementé todos los Endpoints CRUD adicionales al que pedían para dar mayor visibilidad a mi codificación.
