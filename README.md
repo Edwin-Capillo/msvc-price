@@ -56,7 +56,7 @@ pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity
 | **DELETE**  | `/api/delete/{id}`| Eliminar un precio por ID.                    | Ninguno                                                                                                 | Ninguno                                                                                                                                                                |
 
 ## Información Adicional
-1. Tenemos la documentación del API en el siguiente .yaml que se puede visualizar en swagger(https://editor.swagger.io/) Link: https://github.com/Edwin-Capillo/msvc-hexagonal-zara/blob/master/OpenAPI-swagger.yaml
+1. Tenemos la documentación del API en el siguiente .yaml que se puede visualizar en swagger(https://editor.swagger.io/) Link: https://github.com/Edwin-Capillo/msvc-price/blob/master/OpenAPI-swagger.yaml
 2. Implementé todos los Endpoints CRUD adicionales al que pedían para dar mayor visibilidad a mi codificación.
 3. Se implementó las pruebas unitarias con un coverage del +91% también se agregó las 5 pruebas de integración en la clase PriceControllerIntegrationTest
 4. Se manejó el control de versiones con git, se revisó el Checkstyle y se escaneo el proyecto con SonarQube for IDE para detectar las vulnerabilidades obteniendo como resultado sin vulnerabilidades.
@@ -65,5 +65,5 @@ pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity
 
 1. Clonar el repositorio:
 2. Luego ejecutar el proyecto en el IDE de su preferencia como por ejemplo intellij IDE donde se desarrollo el proyecto.
-3. Importar desde Postman la siguiente collection: https://github.com/Edwin-Capillo/msvc-hexagonal-zara/blob/master/Msvc-Price.postman_collection.json 
+3. Importar desde Postman la siguiente collection: https://github.com/Edwin-Capillo/msvc-price/blob/master/Msvc-Price.postman_collection.json 
 4. El endpoint solicitado es `/api/price`. Utilicé PostMapping debido a que envío los parámetros en el body y es la mejor opción entre Get y Post para este caso con RequestBody
