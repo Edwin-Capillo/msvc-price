@@ -13,9 +13,9 @@ public class PriceSummaryResponse {
     private Long productId;
     private Long brandId;
     private Integer priceList;
-    @JsonFormat(pattern = ConstantsUtils.FORMATDATETIME)
+    @JsonFormat(pattern = ConstantsUtils.FORMAT_DATETIME)
     private LocalDateTime startDate;
-    @JsonFormat(pattern = ConstantsUtils.FORMATDATETIME)
+    @JsonFormat(pattern = ConstantsUtils.FORMAT_DATETIME)
     private LocalDateTime endDate;
     private Double priceAmount;
     private String currency;

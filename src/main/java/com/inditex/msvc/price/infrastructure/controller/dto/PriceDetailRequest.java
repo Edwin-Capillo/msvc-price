@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @Setter
 public class PriceDetailRequest {
     private Long brandId;
-    @JsonFormat(pattern = ConstantsUtils.FORMATDATETIME)
+    @JsonFormat(pattern = ConstantsUtils.FORMAT_DATETIME)
     private LocalDateTime startDate;
-    @JsonFormat(pattern = ConstantsUtils.FORMATDATETIME)
+    @JsonFormat(pattern = ConstantsUtils.FORMAT_DATETIME)
     private LocalDateTime endDate;
     private Integer priceList;
     private Long productId;

@@ -4,10 +4,11 @@ public final class ConstantsUtils {
     private ConstantsUtils() {
     }
 
-    public static final String FORMATDATETIME = "yyyy-MM-dd-HH:mm:ss";
-    public static final String NOTFOUND = "No se encontro un registro para los parametros enviados. Id %s";
-    public static final String NOTNULLVARIABLE = "Ninguna variable a consultar debe ser vacio.";
-    public static final String UNEXPECTEDERROR = "Se produjo un error inesperado, " +
+    public static final String FORMAT_DATETIME = "yyyy-MM-dd-HH:mm:ss";
+    public static final String NOT_FOUND = "No se encontro un registro para los parametros enviados. Id %s";
+    public static final String NOT_NULL_VARIABLE = "Ninguna variable a consultar debe ser vacio.";
+    public static final String UNEXPECTED_ERROR = "Se produjo un error inesperado, " +
             "por favor comuniquese con el administrador del sistema.";
-    public static final String EMPTYORNULL = "No se puede registrar un valor vacio o nulo.";
+    public static final String EMPTY_OR_NULL = "No se puede registrar un valor vacio o nulo.";
+    public static final String PRICE_AMOUNT_INVALID = "Valor del precio invalido: ";
 }

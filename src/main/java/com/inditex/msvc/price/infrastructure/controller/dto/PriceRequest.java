@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PriceRequest implements Serializable {
-    @JsonFormat(pattern = ConstantsUtils.FORMATDATETIME)
+    @JsonFormat(pattern = ConstantsUtils.FORMAT_DATETIME)
     private LocalDateTime inputDate;
     private Long productId;
     private Long brandId;
