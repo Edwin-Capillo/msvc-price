@@ -5,6 +5,8 @@ import com.inditex.msvc.price.infrastructure.adapters.entity.PriceEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PriceMapper {
 
@@ -18,5 +20,6 @@ public interface PriceMapper {
     @Mapping(source = "priceAmount", target = "priceAmount")
     @Mapping(source = "currency", target = "currency")
     Price toPrice(PriceEntity entity);
+    PriceEntity toPriceEntity(Price price);
 
 }

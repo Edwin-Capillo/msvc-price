@@ -8,16 +8,17 @@ import com.inditex.msvc.price.infrastructure.adapters.mapper.PriceMapper;
 import com.inditex.msvc.price.infrastructure.adapters.repository.SpringDatePriceRepository;
 import com.inditex.msvc.price.infrastructure.adapters.utils.ConstantsUtils;
 import com.inditex.msvc.price.infrastructure.controller.dto.PriceRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
     private final SpringDatePriceRepository springDatePriceRepository;
@@ -43,5 +44,48 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
         } catch (DateTimeParseException ex) {
             throw new PriceException(HttpStatus.BAD_REQUEST, ConstantsUtils.UNEXPECTEDERROR);
         }
+    }
+
+    @Override
+    public Price getById(Long id) {
+        return this.springDatePriceRepository.findById(id)
+                .map(this.priceMapper::toPrice)
+                .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
+                        String.format(ConstantsUtils.NOTFOUND, id)));
+    }
+
+    @Override
+    public Price save(Price price) {
+        Objects.requireNonNull(price, ConstantsUtils.EMPTYORNULL);
+        return this.priceMapper.toPrice(
+                this.springDatePriceRepository.save(this.priceMapper.toPriceEntity(price)));
+    }
+
+    @Override
+    public Price update(Long id, Price price) {
+        return this.springDatePriceRepository.findById(id)
+                .map(existingEntity -> {
+                    price.setId(id);
+                    return this.priceMapper.toPrice(
+                            this.springDatePriceRepository.save(this.priceMapper.toPriceEntity(price)));
+                })
+                .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
+                        String.format(ConstantsUtils.NOTFOUND, id)));
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!this.springDatePriceRepository.existsById(id)) {
+            throw new PriceException(HttpStatus.NOT_FOUND, String.format(ConstantsUtils.NOTFOUND, id));
+        }
+        this.springDatePriceRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Price> getAll() {
+        return springDatePriceRepository.findAll()
+                .stream()
+                .map(priceMapper::toPrice)
+                .toList();
     }
 }
