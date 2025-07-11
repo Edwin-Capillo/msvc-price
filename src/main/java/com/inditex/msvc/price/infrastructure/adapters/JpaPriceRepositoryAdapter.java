@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Objects;
@@ -56,6 +57,7 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
     @Override
     public Price save(Price price) {
         GeneralMethods.validatePrice(price);
+        price.setCreatedDate(LocalDateTime.now());
         return this.priceMapper.toPrice(
                 this.springDatePriceRepository.save(this.priceMapper.toPriceEntity(price)));
     }
@@ -64,13 +66,23 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
     public Price update(Long id, Price price) {
         GeneralMethods.validatePrice(price);
         return this.springDatePriceRepository.findById(id)
-                .map(existingEntity -> {
-                    price.setId(id);
-                    return this.priceMapper.toPrice(
-                            this.springDatePriceRepository.save(this.priceMapper.toPriceEntity(price)));
-                })
-                .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
-                        String.format(ConstantsUtils.NOT_FOUND, id)));
+         .map(existingEntity -> {
+             var updatedEntity = existingEntity.toBuilder()
+             .brandId(price.getBrandId() != null ? price.getBrandId() : existingEntity.getBrandId())
+             .startDate(price.getStartDate() != null ? price.getStartDate() : existingEntity.getStartDate())
+             .endDate(price.getEndDate() != null ? price.getEndDate() : existingEntity.getEndDate())
+             .priceList(price.getPriceList() != null ? price.getPriceList() : existingEntity.getPriceList())
+             .productId(price.getProductId() != null ? price.getProductId() : existingEntity.getProductId())
+             .priority(price.getPriority() != null ? price.getPriority() : existingEntity.getPriority())
+             .priceAmount(price.getPriceAmount() != null ? price.getPriceAmount() : existingEntity.getPriceAmount())
+             .currency(price.getCurrency() != null ? price.getCurrency() : existingEntity.getCurrency())
+             .lastUpdated(LocalDateTime.now())
+             .build();
+                return this.priceMapper.toPrice(
+                        this.springDatePriceRepository.save(updatedEntity));
+            })
+            .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
+                    String.format(ConstantsUtils.NOT_FOUND, id)));
     }
 
     @Override

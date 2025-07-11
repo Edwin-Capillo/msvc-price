@@ -19,7 +19,9 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -113,23 +115,23 @@ class JpaPriceRepositoryAdapterTest {
     @Test
     void testUpdate_Success() {
         Price mockPrice = new Price();
-        mockPrice.setId(1L);
-        PriceEntity mockEntity = new PriceEntity();
+        PriceEntity existingEntity = new PriceEntity();
+        PriceEntity updatedEntity = existingEntity.toBuilder().build();
 
         try (var mockedStatic = Mockito.mockStatic(GeneralMethods.class)) {
             mockedStatic.when(() -> GeneralMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null);
-            Mockito.when(springDatePriceRepository.findById(1L)).thenReturn(Optional.of(mockEntity));
-            Mockito.when(priceMapper.toPriceEntity(mockPrice)).thenReturn(mockEntity);
-            Mockito.when(springDatePriceRepository.save(mockEntity)).thenReturn(mockEntity);
-            Mockito.when(priceMapper.toPrice(mockEntity)).thenReturn(mockPrice);
+            Mockito.when(springDatePriceRepository.findById(1L)).thenReturn(Optional.of(existingEntity));
+            Mockito.when(springDatePriceRepository.save(Mockito.any(PriceEntity.class))).thenReturn(updatedEntity);
+            Mockito.when(priceMapper.toPrice(updatedEntity)).thenReturn(mockPrice);
 
             Price result = jpaPriceRepositoryAdapter.update(1L, mockPrice);
 
             assertNotNull(result);
+            assertEquals(mockPrice.getBrandId(), result.getBrandId());
+            assertEquals(mockPrice.getPriceAmount(), result.getPriceAmount());
             Mockito.verify(springDatePriceRepository).findById(1L);
-            Mockito.verify(priceMapper).toPriceEntity(mockPrice);
-            Mockito.verify(springDatePriceRepository).save(mockEntity);
-            Mockito.verify(priceMapper).toPrice(mockEntity);
+            Mockito.verify(springDatePriceRepository).save(Mockito.any(PriceEntity.class));
+            Mockito.verify(priceMapper).toPrice(updatedEntity);
         }
     }
 
