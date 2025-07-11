@@ -17,4 +17,7 @@ public class Price {
     private Integer priority;
     private Double priceAmount;
     private String currency;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastUpdated;
+    private String createdBy;
 }

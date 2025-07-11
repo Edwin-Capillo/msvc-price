@@ -5,16 +5,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
 @Getter
-@Setter
 @Entity
 @Table(name = "PRICE")
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class PriceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +31,7 @@ public class PriceEntity {
     private Integer priority;
     private Double priceAmount;
     private String currency;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastUpdated;
+    private String createdBy;
 }
