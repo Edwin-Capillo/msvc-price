@@ -42,9 +42,11 @@ class PriceControllerTest {
     private void setupMockMvc() {
         mockMvc = MockMvcBuilders.standaloneSetup(priceController).build();
     }
+
     private void mockPriceResponse(PriceSummaryResponse response) {
         Mockito.when(priceUseCases.getPrice(any(PriceRequest.class))).thenReturn(response);
     }
+
     @Test
     void testGetPrice() throws Exception {
         setupMockMvc();
@@ -69,8 +71,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/price")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productId").value(35455L))
                 .andExpect(jsonPath("$.brandId").value(1L))
@@ -139,9 +141,9 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isOk())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.brandId").value(1L))
                 .andExpect(jsonPath("$.startDate").value("2023-10-05-15:30:45"))
                 .andExpect(jsonPath("$.endDate").value("2023-10-05-16:30:45"))
@@ -182,8 +184,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(put("/api/update/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.brandId").value(1L))
                 .andExpect(jsonPath("$.startDate").value("2023-10-05-15:30:45"))
@@ -202,7 +204,7 @@ class PriceControllerTest {
         Mockito.doNothing().when(priceUseCases).deletePrice(1L);
 
         mockMvc.perform(delete("/api/delete/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -235,15 +237,20 @@ class PriceControllerTest {
                 .andExpect(jsonPath("$[0].currency").value("EUR"));
     }
 
-
     /*
-    * Desarrollar unos test al endpoint rest que  validen las siguientes peticiones al servicio con los datos del ejemplo:
-    -          Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
-    -          Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
-    -          Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)
-    -          Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)
-    -          Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
-    * */
+     * Desarrollar unos test al endpoint rest que validen las siguientes peticiones
+     * al servicio con los datos del ejemplo:
+     * - Test 1: petición a las 10:00 del día 14 del producto 35455 para la brand 1
+     * (ZARA)
+     * - Test 2: petición a las 16:00 del día 14 del producto 35455 para la brand 1
+     * (ZARA)
+     * - Test 3: petición a las 21:00 del día 14 del producto 35455 para la brand 1
+     * (ZARA)
+     * - Test 4: petición a las 10:00 del día 15 del producto 35455 para la brand 1
+     * (ZARA)
+     * - Test 5: petición a las 21:00 del día 16 del producto 35455 para la brand 1
+     * (ZARA)
+     */
     @Test
     void Test_1() throws Exception {
         setupMockMvc();
@@ -268,8 +275,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/price")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productId").value(35455L))
                 .andExpect(jsonPath("$.brandId").value(1L))
@@ -304,8 +311,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/price")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productId").value(35455L))
                 .andExpect(jsonPath("$.brandId").value(1L))
@@ -340,8 +347,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/price")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productId").value(35455L))
                 .andExpect(jsonPath("$.brandId").value(1L))
@@ -376,8 +383,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/price")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productId").value(35455L))
                 .andExpect(jsonPath("$.brandId").value(1L))
@@ -412,8 +419,8 @@ class PriceControllerTest {
                 """;
 
         mockMvc.perform(post("/api/price")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productId").value(35455L))
                 .andExpect(jsonPath("$.brandId").value(1L))
