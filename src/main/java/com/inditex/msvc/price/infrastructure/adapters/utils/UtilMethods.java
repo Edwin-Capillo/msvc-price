@@ -6,12 +6,18 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Objects;
 
-public class GeneralMethods {
+public class UtilMethods {
+    private UtilMethods() {
+    }
     public static void validatePrice(Price price) {
         Objects.requireNonNull(price, ConstantsUtils.EMPTY_OR_NULL);
         if (price.getPriceAmount() == null || price.getPriceAmount().compareTo(0.0) <= 0) {
             throw new PriceException(HttpStatus.BAD_REQUEST, ConstantsUtils.PRICE_AMOUNT_INVALID
                     + price.getPriceAmount());
         }
+    }
+
+    public static <T> T getUpdatedValue(T newValue, T existingValue) {
+        return newValue != null ? newValue : existingValue;
     }
 }

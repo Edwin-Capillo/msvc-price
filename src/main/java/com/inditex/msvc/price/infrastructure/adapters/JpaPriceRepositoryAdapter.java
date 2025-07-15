@@ -7,7 +7,7 @@ import com.inditex.msvc.price.infrastructure.adapters.exception.PriceException;
 import com.inditex.msvc.price.infrastructure.adapters.mapper.PriceMapper;
 import com.inditex.msvc.price.infrastructure.adapters.repository.SpringDatePriceRepository;
 import com.inditex.msvc.price.infrastructure.adapters.utils.ConstantsUtils;
-import com.inditex.msvc.price.infrastructure.adapters.utils.GeneralMethods;
+import com.inditex.msvc.price.infrastructure.adapters.utils.UtilMethods;
 import com.inditex.msvc.price.infrastructure.controller.dto.PriceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -56,7 +56,7 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
     @Override
     public Price save(Price price) {
-        GeneralMethods.validatePrice(price);
+        UtilMethods.validatePrice(price);
         price.setCreatedDate(LocalDateTime.now());
         return this.priceMapper.toPrice(
                 this.springDatePriceRepository.save(this.priceMapper.toPriceEntity(price)));
@@ -64,20 +64,20 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
     @Override
     public Price update(Long id, Price price) {
-        GeneralMethods.validatePrice(price);
+        UtilMethods.validatePrice(price);
         return this.springDatePriceRepository.findById(id)
          .map(existingEntity -> {
              var updatedEntity = existingEntity.toBuilder()
-             .brandId(price.getBrandId() != null ? price.getBrandId() : existingEntity.getBrandId())
-             .startDate(price.getStartDate() != null ? price.getStartDate() : existingEntity.getStartDate())
-             .endDate(price.getEndDate() != null ? price.getEndDate() : existingEntity.getEndDate())
-             .priceList(price.getPriceList() != null ? price.getPriceList() : existingEntity.getPriceList())
-             .productId(price.getProductId() != null ? price.getProductId() : existingEntity.getProductId())
-             .priority(price.getPriority() != null ? price.getPriority() : existingEntity.getPriority())
-             .priceAmount(price.getPriceAmount() != null ? price.getPriceAmount() : existingEntity.getPriceAmount())
-             .currency(price.getCurrency() != null ? price.getCurrency() : existingEntity.getCurrency())
-             .lastUpdated(LocalDateTime.now())
-             .build();
+                 .brandId(UtilMethods.getUpdatedValue(price.getBrandId(), existingEntity.getBrandId()))
+                 .startDate(UtilMethods.getUpdatedValue(price.getStartDate(), existingEntity.getStartDate()))
+                 .endDate(UtilMethods.getUpdatedValue(price.getEndDate(), existingEntity.getEndDate()))
+                 .priceList(UtilMethods.getUpdatedValue(price.getPriceList(), existingEntity.getPriceList()))
+                 .productId(UtilMethods.getUpdatedValue(price.getProductId(), existingEntity.getProductId()))
+                 .priority(UtilMethods.getUpdatedValue(price.getPriority(), existingEntity.getPriority()))
+                 .priceAmount(UtilMethods.getUpdatedValue(price.getPriceAmount(), existingEntity.getPriceAmount()))
+                 .currency(UtilMethods.getUpdatedValue(price.getCurrency(), existingEntity.getCurrency()))
+                 .lastUpdated(LocalDateTime.now())
+                 .build();
                 return this.priceMapper.toPrice(
                         this.springDatePriceRepository.save(updatedEntity));
             })

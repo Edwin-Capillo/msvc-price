@@ -26,3 +26,10 @@ create table PRICE(
   FOREIGN KEY (BRAND_ID)
   REFERENCES BRAND(ID)
 );
+CREATE INDEX idx_price_search
+ON PRICE (
+    product_id,
+    brand_id,
+    start_date,
+    end_date
+);
