@@ -1,7 +1,7 @@
 package com.inditex.msvc.price.infrastructure.adapters.exception;
 
-import com.inditex.msvc.price.infrastructure.controller.dto.ErrorResponse;
 import com.inditex.msvc.price.infrastructure.adapters.utils.ConstantsUtils;
+import com.inditex.msvc.price.infrastructure.controller.dto.ErrorResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.WebRequest;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
