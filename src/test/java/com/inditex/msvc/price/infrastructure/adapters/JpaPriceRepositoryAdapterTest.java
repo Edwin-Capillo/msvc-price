@@ -5,7 +5,7 @@ import com.inditex.msvc.price.infrastructure.adapters.entity.PriceEntity;
 import com.inditex.msvc.price.infrastructure.adapters.exception.PriceException;
 import com.inditex.msvc.price.infrastructure.adapters.mapper.PriceMapper;
 import com.inditex.msvc.price.infrastructure.adapters.repository.SpringDatePriceRepository;
-import com.inditex.msvc.price.infrastructure.adapters.utils.GeneralMethods;
+import com.inditex.msvc.price.infrastructure.adapters.utils.UtilMethods;
 import com.inditex.msvc.price.infrastructure.controller.dto.PriceRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -97,8 +97,8 @@ class JpaPriceRepositoryAdapterTest {
         Price mockPrice = new Price();
         PriceEntity mockEntity = new PriceEntity();
 
-        try (var mockedStatic = Mockito.mockStatic(GeneralMethods.class)) {
-            mockedStatic.when(() -> GeneralMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null); // Mock validation
+        try (var mockedStatic = Mockito.mockStatic(UtilMethods.class)) {
+            mockedStatic.when(() -> UtilMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null); // Mock validation
             Mockito.when(priceMapper.toPriceEntity(mockPrice)).thenReturn(mockEntity);
             Mockito.when(springDatePriceRepository.save(mockEntity)).thenReturn(mockEntity);
             Mockito.when(priceMapper.toPrice(mockEntity)).thenReturn(mockPrice);
@@ -118,8 +118,8 @@ class JpaPriceRepositoryAdapterTest {
         PriceEntity existingEntity = new PriceEntity();
         PriceEntity updatedEntity = existingEntity.toBuilder().build();
 
-        try (var mockedStatic = Mockito.mockStatic(GeneralMethods.class)) {
-            mockedStatic.when(() -> GeneralMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null);
+        try (var mockedStatic = Mockito.mockStatic(UtilMethods.class)) {
+            mockedStatic.when(() -> UtilMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null);
             Mockito.when(springDatePriceRepository.findById(1L)).thenReturn(Optional.of(existingEntity));
             Mockito.when(springDatePriceRepository.save(Mockito.any(PriceEntity.class))).thenReturn(updatedEntity);
             Mockito.when(priceMapper.toPrice(updatedEntity)).thenReturn(mockPrice);
@@ -139,8 +139,8 @@ class JpaPriceRepositoryAdapterTest {
     void testUpdate_NotFound() {
         Price mockPrice = new Price();
 
-        try (var mockedStatic = Mockito.mockStatic(GeneralMethods.class)) {
-            mockedStatic.when(() -> GeneralMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null); // Mock validation
+        try (var mockedStatic = Mockito.mockStatic(UtilMethods.class)) {
+            mockedStatic.when(() -> UtilMethods.validatePrice(mockPrice)).thenAnswer(invocation -> null); // Mock validation
             Mockito.when(springDatePriceRepository.findById(1L)).thenReturn(Optional.empty());
 
             PriceException exception = assertThrows(PriceException.class, () -> jpaPriceRepositoryAdapter.update(1L, mockPrice));
