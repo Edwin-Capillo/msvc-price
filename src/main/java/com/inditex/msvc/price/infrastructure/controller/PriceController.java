@@ -5,6 +5,7 @@ import com.inditex.msvc.price.infrastructure.controller.dto.PriceDetailRequest;
 import com.inditex.msvc.price.infrastructure.controller.dto.PriceDetailResponse;
 import com.inditex.msvc.price.infrastructure.controller.dto.PriceRequest;
 import com.inditex.msvc.price.infrastructure.controller.dto.PriceSummaryResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class PriceController {
     private final PriceUseCases priceUseCases;
 
     @PostMapping("/price")
-    public ResponseEntity<PriceSummaryResponse> getPrice(@RequestBody PriceRequest priceRequest) {
+    public ResponseEntity<PriceSummaryResponse> getPrice(@RequestBody @Valid PriceRequest priceRequest) {
         return ResponseEntity.ok(this.priceUseCases.getPrice(priceRequest));
     }
 
@@ -39,14 +40,14 @@ public class PriceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PriceDetailResponse> createPrice(@RequestBody PriceDetailRequest priceDetailRequest) {
+    public ResponseEntity<PriceDetailResponse> createPrice(@RequestBody @Valid PriceDetailRequest priceDetailRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 this.priceUseCases.createPrice(priceDetailRequest));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<PriceDetailResponse> updatePrice(@PathVariable @Positive Long id,
-            @RequestBody PriceDetailRequest priceDetailRequest) {
+            @Valid @RequestBody PriceDetailRequest priceDetailRequest) {
         return ResponseEntity.ok(this.priceUseCases.updatePrice(id, priceDetailRequest));
     }
 
