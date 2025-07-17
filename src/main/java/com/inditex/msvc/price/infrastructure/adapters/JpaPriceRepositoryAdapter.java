@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Repository
@@ -26,18 +25,15 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
     @Override
     public Price findByPriceRequest(PriceRequest priceRequest) {
-        try {
-            var priceEntity = this.springDatePriceRepository.getPriceEntity(
-                    priceRequest.getProductId(),
-                    priceRequest.getBrandId(),
-                    priceRequest.getInputDate());
+        var priceEntity = this.springDatePriceRepository.getPriceEntity(
+                priceRequest.getProductId(),
+                priceRequest.getBrandId(),
+                priceRequest.getInputDate());
 
-            return priceEntity.map(this.priceMapper::toPrice)
-                    .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
-                            String.format(ConstantsUtils.NOT_FOUND, priceRequest.getProductId())));
-        } catch (DateTimeParseException ex) {
-            throw new PriceException(HttpStatus.BAD_REQUEST, ConstantsUtils.UNEXPECTED_ERROR);
-        }
+        return priceEntity.map(this.priceMapper::toPrice)
+                .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
+                        String.format(ConstantsUtils.NOT_FOUND, priceRequest.getProductId())));
+
     }
 
     @Override
@@ -50,7 +46,6 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
     @Override
     public Price save(Price price) {
-        UtilPriceMethods.validatePrice(price);
         price.setCreatedDate(LocalDateTime.now());
         return this.priceMapper.toPrice(
                 this.springDatePriceRepository.save(this.priceMapper.toPriceEntity(price)));
@@ -58,12 +53,11 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
     @Override
     public Price update(Long id, Price price) {
-        UtilPriceMethods.validatePrice(price);
         return this.springDatePriceRepository.findById(id)
                 .map(existingEntity -> {
                     return this.priceMapper.toPrice(
                             this.springDatePriceRepository.save(
-                                    UtilPriceMethods.validateAndGetPrice(price, existingEntity)));
+                                    UtilPriceMethods.buildPrice(price, existingEntity)));
                 })
                 .orElseThrow(() -> new PriceException(HttpStatus.NOT_FOUND,
                         String.format(ConstantsUtils.NOT_FOUND, id)));
@@ -72,7 +66,8 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
     @Override
     public void delete(Long id) {
         if (!this.springDatePriceRepository.existsById(id)) {
-            throw new PriceException(HttpStatus.NOT_FOUND, String.format(ConstantsUtils.NOT_FOUND, id));
+            throw new PriceException(HttpStatus.NOT_FOUND,
+                    String.format(ConstantsUtils.NOT_FOUND, id));
         }
         this.springDatePriceRepository.deleteById(id);
     }

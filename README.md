@@ -1,8 +1,8 @@
-# Aplicación Msvc Price
+# 🏪 Aplicación Msvc Price
 
 Se implementó una aplicación Spring Boot diseñada para gestionar información de precios,
-se desarrollo con arquitectura hexagonal manteniendo el código limpio, escalable, 
-manejo de errores, desacoplando cada capa utilizando puertos(interfaces) y utilizando mapper para 
+se desarrollo con arquitectura hexagonal manteniendo el código limpio, escalable,
+manejo de errores, desacoplando cada capa utilizando puertos(interfaces) y utilizando mapper para
 pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity otro objeto del dominio.
 
 ## Características
@@ -13,14 +13,18 @@ pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity
 - Uso de MapStruct para el mapeo entre entidades y modelos de dominio.
 - Base de datos en memoria H2 para pruebas y desarrollo.
 
-## Tecnologías Utilizadas
+## Tecnologías Utilizadas## 🛠️ Stack Tecnológico
 
-- **Java version 17**: Lenguaje de programación, soporta el cambio de version de java (11, 17, 21).
-- **Spring Boot**: Framework para construir la aplicación.
-- **Maven**: Herramienta de gestión de dependencias y construcción.
-- **Base de datos H2**: Base de datos en memoria para pruebas.
-- **MapStruct**: Para el mapeo de objetos.
-- **JUnit 5**: Para pruebas.
+| Categoría         | Tecnología             | Versión    | Propósito                             |
+| ----------------- | ---------------------- | ---------- | ------------------------------------- |
+| **Core**          | Java                   | 17         | Lenguaje base (compatible 11, 17, 21) |
+| **Framework**     | Spring Boot            | 3.5.3      | Framework principal                   |
+| **Build**         | Maven                  | 3.8+       | Gestión de dependencias               |
+| **Database**      | H2                     | En memoria | Testing y desarrollo                  |
+| **Mapping**       | MapStruct              | 1.5.5      | Mapeo automático de objetos           |
+| **Testing**       | JUnit 5 + MockMvc      | -          | Testing unitario e integración        |
+| **Documentation** | OpenAPI                | 3.0.1      | Especificación de API                 |
+| **Quality**       | SonarQube + Checkstyle | -          | Análisis de código                    |
 
 ## Estructura del Proyecto
 
@@ -42,7 +46,49 @@ pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity
 - - **`controller`**: Contiene los controladores REST para manejar las solicitudes de la API.
   - - **`dto`**: Objetos de transferencia de datos para las cargas útiles de solicitud y respuesta.
 
+## 🚀 API Endpoints - CRUD Completo
+
+| Método   | Endpoint           | Descripción                        | Status |
+| -------- | ------------------ | ---------------------------------- | ------ |
+| `POST`   | `/api/price`       | **Consulta principal** (enunciado) | ✅     |
+| `GET`    | `/api/price/{id}`  | Obtener precio por ID              | ✅     |
+| `POST`   | `/api/create`      | Crear nuevo precio                 | ✅     |
+| `PUT`    | `/api/update/{id}` | Actualizar precio existente        | ✅     |
+| `DELETE` | `/api/delete/{id}` | Eliminar precio                    | ✅     |
+| `GET`    | `/api/prices`      | Listar todos los precios           | ✅     |
+
+> **Nota**: Se implementaron todos los endpoints CRUD adicionales para dar mayor visibilidad a la codificación.
+
+✅ **Principios SOLID Aplicados:**
+
+- SRP: Mappers específicos por responsabilidad
+- OCP: Puertos/interfaces para extensibilidad
+- LSP: Implementaciones intercambiables
+- ISP: Interfaces segregadas (in/out ports)
+- DIP: Dependencias hacia abstracciones
+
+### **Casos de Prueba con Tabla Visual**
+
+## 🧪 Casos de Prueba (Enunciado)
+
+Los **5 casos específicos** del enunciado están implementados como pruebas de integración:
+
+| Test       | Fecha Consulta   | Producto | Marca | Precio Esperado | Tarifa | Status |
+| ---------- | ---------------- | -------- | ----- | --------------- | ------ | ------ |
+| **Test 1** | 2020-06-14 10:00 | 35455    | 1     | **35.50 EUR**   | 1      | ✅     |
+| **Test 2** | 2020-06-14 16:00 | 35455    | 1     | **25.45 EUR**   | 2      | ✅     |
+| **Test 3** | 2020-06-14 21:00 | 35455    | 1     | **35.50 EUR**   | 1      | ✅     |
+| **Test 4** | 2020-06-15 10:00 | 35455    | 1     | **30.50 EUR**   | 3      | ✅     |
+| **Test 5** | 2020-06-16 21:00 | 35455    | 1     | **38.95 EUR**   | 4      | ✅     |
+
+### Lógica de Negocio
+
+- ✅ Se aplica la **tarifa de mayor prioridad**
+- ✅ Si no existe tarifa aplicable → **404 Not Found**
+- ✅ Validaciones robustas en todos los parámetros
+
 ## Información Adicional
+
 1. Tenemos la documentación del API en el siguiente .yaml que se puede visualizar en swagger(https://editor.swagger.io/) Link: https://github.com/Edwin-Capillo/msvc-price/blob/master/OpenAPI-swagger.yaml
 2. Implementé todos los Endpoints CRUD adicionales al que pedían para dar mayor visibilidad a mi codificación.
 3. Se implementó las pruebas unitarias con un coverage del +91% también se agregó las 5 pruebas de integración en la clase PriceControllerIntegrationTest
@@ -52,5 +98,5 @@ pasar los datos de un tipo de objeto a otro como por ejemplo de un objeto entity
 
 1. Clonar el repositorio:
 2. Luego ejecutar el proyecto en el IDE de su preferencia como por ejemplo intellij IDE donde se desarrollo el proyecto.
-3. Importar desde Postman la siguiente collection: https://github.com/Edwin-Capillo/msvc-price/blob/master/Msvc-Price.postman_collection.json 
+3. Importar desde Postman la siguiente collection: https://github.com/Edwin-Capillo/msvc-price/blob/master/Msvc-Price.postman_collection.json
 4. El endpoint solicitado es `/api/price`. Utilicé PostMapping debido a que envío los parámetros en el body y es la mejor opción entre Get y Post para este caso con RequestBody

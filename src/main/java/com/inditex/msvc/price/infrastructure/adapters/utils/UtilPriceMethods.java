@@ -2,40 +2,24 @@ package com.inditex.msvc.price.infrastructure.adapters.utils;
 
 import com.inditex.msvc.price.domain.model.Price;
 import com.inditex.msvc.price.infrastructure.adapters.entity.PriceEntity;
-import com.inditex.msvc.price.infrastructure.adapters.exception.PriceException;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-
+@Component
 public class UtilPriceMethods {
     private UtilPriceMethods() {
     }
-
-    public static void validatePrice(Price price) {
-        Objects.requireNonNull(price, ConstantsUtils.EMPTY_OR_NULL);
-        if (price.getPriceAmount() == null || price.getPriceAmount().compareTo(0.0) <= 0) {
-            throw new PriceException(HttpStatus.BAD_REQUEST, ConstantsUtils.PRICE_AMOUNT_INVALID
-                    + price.getPriceAmount());
-        }
-    }
-
-    public static PriceEntity validateAndGetPrice(Price price, PriceEntity existingEntity) {
-        Objects.requireNonNull(price, ConstantsUtils.EMPTY_OR_NULL);
+    public static PriceEntity buildPrice(Price price, PriceEntity existingEntity) {
         return existingEntity.toBuilder()
-                .brandId(getUpdatedValue(price.getBrandId(), existingEntity.getBrandId()))
-                .startDate(getUpdatedValue(price.getStartDate(), existingEntity.getStartDate()))
-                .endDate(getUpdatedValue(price.getEndDate(), existingEntity.getEndDate()))
-                .priceList(getUpdatedValue(price.getPriceList(), existingEntity.getPriceList()))
-                .productId(getUpdatedValue(price.getProductId(), existingEntity.getProductId()))
-                .priority(getUpdatedValue(price.getPriority(), existingEntity.getPriority()))
-                .priceAmount(getUpdatedValue(price.getPriceAmount(), existingEntity.getPriceAmount()))
-                .currency(getUpdatedValue(price.getCurrency(), existingEntity.getCurrency()))
+                .brandId(price.getBrandId())
+                .startDate(price.getStartDate())
+                .endDate(price.getEndDate())
+                .priceList(price.getPriceList())
+                .productId(price.getProductId())
+                .priority(price.getPriority())
+                .priceAmount(price.getPriceAmount())
+                .currency(price.getCurrency())
                 .lastUpdated(LocalDateTime.now())
                 .build();
-    }
-
-    public static <T> T getUpdatedValue(T newValue, T existingValue) {
-        return newValue != null ? newValue : existingValue;
     }
 }
